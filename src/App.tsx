@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import '@twa-dev/sdk'
 
 function App() {
   const [count, setCount] = useState(0)
