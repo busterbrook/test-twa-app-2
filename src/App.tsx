@@ -1,4 +1,5 @@
 import { TonConnectButton } from '@tonconnect/ui-react'
+import {useSendContract} from "./hooks/useLightSendContract"
 import './App.css'
 import '@twa-dev/sdk'
 
@@ -13,7 +14,8 @@ function App() {
       <p> Sync You </p>
     </div>
     <div>
-      <button>
+      <button
+      onClick={useSendContract}>
         SEND
       </button>
     </div>
