@@ -1,6 +1,6 @@
+/*
 import React from "react";
 import { Address, Contract, OpenedContract, toNano } from "ton-core";
-import SendTonLightContract from "../contracts/sendTon"
 import {SendTon} from "../wrappers/SendLightContract"
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonClient } from "./useTonClient";
@@ -32,6 +32,7 @@ export function useSendContract(){
                 value: toNano("1.05")
             }, message)
         }
-            */
+
     }
 }
+ */
