@@ -1,6 +1,7 @@
+import React from 'react';
 import {useState} from "react";
 import { TonConnectButton } from '@tonconnect/ui-react'
-//import {useSendContract} from "./hooks/useLightSendContract"
+import {useSendContract} from "./hooks/useLightSendContract"
 import './App.css'
 import '@twa-dev/sdk'
 import react from "@vitejs/plugin-react";
@@ -10,6 +11,8 @@ function App() {
   const [amountIn] = useState("0");
   const [currencyOut] = useState("");
   const [currencyIn] = useState("");
+
+  const {sendTon} = useSendContract();
 
   const writeData = () => {
     console.log(amountOut, amountIn, currencyOut, currencyIn);
@@ -24,8 +27,8 @@ function App() {
         <div className='Application'>
           <div className='Header'>
             <TonConnectButton/>
-            <button>
-              LK
+            <button onClick={sendTon}>
+              SEND 1 TON
             </button>
           </div>
 
