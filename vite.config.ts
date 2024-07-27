@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import inject from '@rollup/plugin-inject'
 
 // https://vitejs.dev/config/
 /*
@@ -25,6 +26,11 @@ export default defineConfig({
         })
       ]
     }
+  },
+  build: {
+    rollupOptions: {
+      plugins: [inject({ Buffer: ['buffer/', 'Buffer'] })],
+    },
   },
   base: "/test-twa-app-2/"
 })
