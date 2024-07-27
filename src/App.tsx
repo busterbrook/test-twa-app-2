@@ -5,10 +5,11 @@ import {useSendContract} from "./hooks/useLightSendContract"
 import './App.css'
 import '@twa-dev/sdk'
 import react from "@vitejs/plugin-react";
+import * as events from "node:events";
 
 function App() {
-  const [amountOut] = useState("0");
-  const [amountIn] = useState("0");
+  const [amountOut, setAmountOut] = useState("0");
+  const [amountIn, setAmountIn] = useState("0");
   const [currencyOut] = useState("");
   const [currencyIn] = useState("");
 
@@ -43,24 +44,24 @@ function App() {
               <input
                   type="int"
                   value={amountOut}
-                  //onChange={onChange}
+                  onChange={event => setAmountOut(event.target.value)}
               />
               <p>Currency Out</p>
               <input
                   type="int"
-                  value={amountOut}
+                  value={currencyOut}
                   //onChange={onChange}
               />
               <p>Ton In</p>
               <input
                   type="int"
-                  value={amountOut}
-                  //onChange={onChange}
+                  value={amountIn}
+                  onChange={event => setAmountIn(event.target.value)}
               />
               <p>Currency In</p>
               <input
                   type="int"
-                  value={amountOut}
+                  value={currencyIn}
                   //onChange={onChange}
               />
             </div>
