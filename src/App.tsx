@@ -1,20 +1,27 @@
-import React from 'react';
-import {useState} from "react";
-import { TonConnectButton } from '@tonconnect/ui-react'
+import React, {useState} from 'react';
+import {TonConnectButton} from '@tonconnect/ui-react'
 import {useSendContract} from "./hooks/useLightSendContract"
 import './App.css'
 import '@twa-dev/sdk'
-import react from "@vitejs/plugin-react";
-import * as events from "node:events";
+import {useTonConnect} from "./hooks/useTonConnect.ts";
+import {CHAIN} from "@tonconnect/protocol";
 
 function App() {
-  const [amountOut, setAmountOut] = useState("0");
-  const [amountIn, setAmountIn] = useState("0");
-  const [currencyOut] = useState("");
-  const [currencyIn] = useState("");
+  const { network } = useTonConnect();
 
-  const {sendTon} = useSendContract();
+  // Wallet to wallet testing
+  const [amountSend, setAmountSend] = useState(1)
 
+  // Three side contract testing
+  const [amountOut, setAmountOut] = useState(0.01);
+  const [amountIn, setAmountIn] = useState(0.01);
+  const [currencyOut, setCurrencyOut] = useState("");
+  const [currencyIn, setCurrencyIn] = useState("");
+
+  // Call Functions
+  const {sendTon} = useSendContract({amountSend});
+
+  // Local Handlers
   const writeData = () => {
     console.log(amountOut, amountIn, currencyOut, currencyIn);
   }
@@ -23,13 +30,25 @@ function App() {
     console.log("read from DB");
   }
 
+  // Main App
+
   return (
       <>
         <div className='Application'>
           <div className='Header'>
             <TonConnectButton/>
+            <p> Net is {network ? network === CHAIN.MAINNET ? "MAINnet" : "TESTnet" : "N/A"}</p>
+          </div>
+
+          <div className='SendLightContract'>
+            <div>
+              <input
+                  type='text'
+                  value={amountSend}
+                  onChange={(e) => setAmountSend(Number(e.target.value))}/>
+            </div>
             <button onClick={sendTon}>
-              SEND 1 TON
+              SEND Ton in {network ? network === CHAIN.MAINNET ? "MAINnet" : "TESTnet" : "N/A"}
             </button>
           </div>
 
@@ -44,25 +63,25 @@ function App() {
               <input
                   type="int"
                   value={amountOut}
-                  onChange={event => setAmountOut(event.target.value)}
+                  onChange={event => setAmountOut(Number(event.target.value))}
               />
               <p>Currency Out</p>
               <input
                   type="int"
                   value={currencyOut}
-                  //onChange={onChange}
+                  onChange={event => setCurrencyOut(event.target.value)}
               />
               <p>Ton In</p>
               <input
                   type="int"
                   value={amountIn}
-                  onChange={event => setAmountIn(event.target.value)}
+                  onChange={event => setAmountIn(Number(event.target.value))}
               />
               <p>Currency In</p>
               <input
                   type="int"
                   value={currencyIn}
-                  //onChange={onChange}
+                  onChange={event => setCurrencyIn(event.target.value)}
               />
             </div>
 
