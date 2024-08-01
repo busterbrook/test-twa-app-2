@@ -1,0 +1,168 @@
+#pragma version =0.4.4;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "tact_ThreeSideContract.headers.fc";
+#include "tact_ThreeSideContract.stdlib.fc";
+#include "tact_ThreeSideContract.constants.fc";
+#include "tact_ThreeSideContract.storage.fc";
+
+;;
+;; Contract ThreeSideContract functions
+;;
+
+((int, int, int, slice, slice, slice, slice)) $ThreeSideContract$_contract_init() impure inline_ref {
+    var ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress))) = (null());
+    ($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress) = $Offer$_constructor_id_amountOut_amountIn_currencyOut_currencyIn_makerAddress_takerAddress(0, 0, 0, __gen_slice_string_7f23a419b837f87cb02beed6e36d91ee847b2ebce01b9ef5a02df2baf4c081a1(), __gen_slice_string_7f23a419b837f87cb02beed6e36d91ee847b2ebce01b9ef5a02df2baf4c081a1(), __tact_context_get_sender(), __tact_context_get_sender());
+    return (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress));
+}
+
+(((int, int, int, slice, slice, slice, slice)), ()) $ThreeSideContract$_fun_Swap(((int, int, int, slice, slice, slice, slice)) $self, (int, int, int, slice, slice, slice, slice) $offer) impure inline_ref {
+    var ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress))) = $self;
+    var (($offer'id, $offer'amountOut, $offer'amountIn, $offer'currencyOut, $offer'currencyIn, $offer'makerAddress, $offer'takerAddress)) = $offer;
+    int $AmountForClient1 = ($offer'amountIn + 400000);
+    int $AmountForClient2 = ($offer'amountOut + 400000);
+    int $Commision = (((__tact_my_balance() - $AmountForClient1) - $AmountForClient2) - 20000000);
+    $global_send($SendParameters$_constructor_to_bounce_value_mode($self'offer'makerAddress, true, $AmountForClient1, 2));
+    $global_send($SendParameters$_constructor_to_bounce_value_mode($self'offer'takerAddress, true, $AmountForClient2, 2));
+    $global_send($SendParameters$_constructor_to_bounce_value_mode(__gen_slice_address_ad6ca21f706f0cf960c73517223e28759896805c10f7459ae87ec85d30cc4302(), true, $Commision, 2));
+    return ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)), ());
+}
+
+;;
+;; Receivers of a Contract ThreeSideContract
+;;
+
+((((int, int, int, slice, slice, slice, slice))), ()) $ThreeSideContract$_internal_binary_LoadBalane(((int, int, int, slice, slice, slice, slice)) $self, (int) $msg) impure inline {
+    var (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)) = $self;
+    var ($msg'amountLoad) = $msg;
+    __tact_debug_str(__gen_slice_string_806547a102057ad147a66517a47a69e2f699b6b8073eb97f2c6af0824cd9d23c(), __gen_slice_string_1621412d7022f2ccf0ef1caeb4446cb9f4fd5ce3288d6c152c064e31237a3f95(), "File contracts/three_side_contract.tact:59:9:");
+    return ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)), ());
+}
+
+((((int, int, int, slice, slice, slice, slice))), ()) $ThreeSideContract$_internal_binary_CreateOffer(((int, int, int, slice, slice, slice, slice)) $self, (int, int, slice, int, slice, slice) $msg) impure inline {
+    var (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)) = $self;
+    var ($msg'offerId, $msg'amountOut, $msg'currencyOut, $msg'amountIn, $msg'currencyIn, $msg'addressMaker) = $msg;
+    $self'offer'id = $msg'offerId;
+    $self'offer'amountOut = $msg'amountOut;
+    $self'offer'amountIn = $msg'amountIn;
+    $self'offer'currencyOut = $msg'currencyOut;
+    $self'offer'currencyIn = $msg'currencyIn;
+    $self'offer'makerAddress = $msg'addressMaker;
+    __tact_debug_str(__gen_slice_string_242cf92bd9bfe2b7166f76b9c151530e7d19fbae94abaa7afef11994a7984599(), __gen_slice_string_dcd00327a62031ddb0c46999697cc6c62beb9fedb123d883965e8eb91a75ca1b(), "File contracts/three_side_contract.tact:70:9:");
+    return ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)), ());
+}
+
+((((int, int, int, slice, slice, slice, slice))), ()) $ThreeSideContract$_internal_binary_Swap(((int, int, int, slice, slice, slice, slice)) $self, (int, slice) $msg) impure inline {
+    var (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)) = $self;
+    var ($msg'offerId, $msg'addressTaker) = $msg;
+    $self'offer'takerAddress = $msg'addressTaker;
+    if (($msg'offerId == $self'offer'id)) {
+        if (( (($self'offer'amountIn != 0)) ? (($self'offer'amountOut != 0)) : (false) )) {
+            (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress))~$ThreeSideContract$_fun_Swap($Offer$_tensor_cast(($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)));
+        } else {
+            __tact_debug_str(__gen_slice_string_3cafa7ceef891cf9f4297fc71026660ecea666a737cd4b2922a7564563a8be76(), __gen_slice_string_c8b7e672da582126765de4e0bc9946c57b213e8096144c2ca12b25a3eef8168e(), "File contracts/three_side_contract.tact:80:17:");
+        }
+    }
+    return ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)), ());
+}
+
+((((int, int, int, slice, slice, slice, slice))), ()) $ThreeSideContract$_internal_binary_Claim(((int, int, int, slice, slice, slice, slice)) $self, (int, slice) $msg) impure inline {
+    var (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)) = $self;
+    var ($msg'offerId, $msg'addressMaker) = $msg;
+    $global_send($SendParameters$_constructor_to_bounce_value_mode($self'offer'makerAddress, true, ($self'offer'amountOut + 400000), 2));
+    return ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)), ());
+}
+
+((((int, int, int, slice, slice, slice, slice))), ()) $ThreeSideContract$_internal_binary_Deploy(((int, int, int, slice, slice, slice, slice)) $self, (int) $deploy) impure inline {
+    var (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)) = $self;
+    var ($deploy'queryId) = $deploy;
+    (($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress))~$ThreeSideContract$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return ((($self'offer'id, $self'offer'amountOut, $self'offer'amountIn, $self'offer'currencyOut, $self'offer'currencyIn, $self'offer'makerAddress, $self'offer'takerAddress)), ());
+}
+
+;;
+;; Get methods of a Contract ThreeSideContract
+;;
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract ThreeSideContract
+;;
+
+(((int, int, int, slice, slice, slice, slice)), int) $ThreeSideContract$_contract_router_internal(((int, int, int, slice, slice, slice, slice)) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive LoadBalane message
+    if (op == 4020807485) {
+        var msg = in_msg~$LoadBalane$_load();
+        self~$ThreeSideContract$_internal_binary_LoadBalane(msg);
+        return (self, true);
+    }
+    
+    ;; Receive CreateOffer message
+    if (op == 2432115604) {
+        var msg = in_msg~$CreateOffer$_load();
+        self~$ThreeSideContract$_internal_binary_CreateOffer(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Swap message
+    if (op == 728235123) {
+        var msg = in_msg~$Swap$_load();
+        self~$ThreeSideContract$_internal_binary_Swap(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Claim message
+    if (op == 1422588851) {
+        var msg = in_msg~$Claim$_load();
+        self~$ThreeSideContract$_internal_binary_Claim(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$ThreeSideContract$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $ThreeSideContract$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$ThreeSideContract$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $ThreeSideContract$_contract_store(self);
+}

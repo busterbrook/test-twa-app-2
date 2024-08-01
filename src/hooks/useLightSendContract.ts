@@ -1,5 +1,5 @@
 import React from "react";
-import { Address, Contract, OpenedContract, toNano } from "ton-core";
+import { Address, OpenedContract, toNano } from "ton-core";
 import {SendLightContract,SendTon} from "../wrappers/SendLightContract"
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonClient } from "./useTonClient";

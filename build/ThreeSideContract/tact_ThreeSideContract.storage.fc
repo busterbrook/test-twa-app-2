@@ -1,0 +1,181 @@
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
+;;
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_bounce_value_mode(slice $to, int $bounce, int $value, int $mode) inline {
+    return ($bounce, $to, $value, $mode, null(), null(), null());
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int $bounce, slice $to, int $value, int $mode, cell $body, cell $code, cell $data) inline {
+    return ($bounce, $to, $value, $mode, $body, $code, $data);
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2490013878);
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline {
+    return ($queryId);
+}
+
+;;
+;; Type: Offer
+;; TLB: _ id:uint32 amountOut:coins amountIn:coins currencyOut:^string currencyIn:^string makerAddress:address takerAddress:address = Offer
+;;
+
+builder $Offer$_store(builder build_0, (int, int, int, slice, slice, slice, slice) v) inline_ref {
+    var (v'id, v'amountOut, v'amountIn, v'currencyOut, v'currencyIn, v'makerAddress, v'takerAddress) = v;
+    build_0 = build_0.store_uint(v'id, 32);
+    build_0 = build_0.store_coins(v'amountOut);
+    build_0 = build_0.store_coins(v'amountIn);
+    build_0 = build_0.store_ref(begin_cell().store_slice(v'currencyOut).end_cell());
+    build_0 = build_0.store_ref(begin_cell().store_slice(v'currencyIn).end_cell());
+    build_0 = __tact_store_address(build_0, v'makerAddress);
+    build_0 = __tact_store_address(build_0, v'takerAddress);
+    return build_0;
+}
+
+(slice, ((int, int, int, slice, slice, slice, slice))) $Offer$_load(slice sc_0) inline_ref {
+    var v'id = sc_0~load_uint(32);
+    var v'amountOut = sc_0~load_coins();
+    var v'amountIn = sc_0~load_coins();
+    var v'currencyOut = sc_0~load_ref().begin_parse();
+    var v'currencyIn = sc_0~load_ref().begin_parse();
+    var v'makerAddress = sc_0~__tact_load_address();
+    var v'takerAddress = sc_0~__tact_load_address();
+    return (sc_0, (v'id, v'amountOut, v'amountIn, v'currencyOut, v'currencyIn, v'makerAddress, v'takerAddress));
+}
+
+((int, int, int, slice, slice, slice, slice)) $Offer$_tensor_cast((int, int, int, slice, slice, slice, slice) v) asm "NOP";
+
+((int, int, int, slice, slice, slice, slice)) $Offer$_constructor_id_amountOut_amountIn_currencyOut_currencyIn_makerAddress_takerAddress(int $id, int $amountOut, int $amountIn, slice $currencyOut, slice $currencyIn, slice $makerAddress, slice $takerAddress) inline {
+    return ($id, $amountOut, $amountIn, $currencyOut, $currencyIn, $makerAddress, $takerAddress);
+}
+
+;;
+;; Type: LoadBalane
+;; Header: 0xefa8a73d
+;; TLB: load_balane#efa8a73d amountLoad:coins = LoadBalane
+;;
+
+(slice, ((int))) $LoadBalane$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 4020807485);
+    var v'amountLoad = sc_0~load_coins();
+    return (sc_0, (v'amountLoad));
+}
+
+;;
+;; Type: CreateOffer
+;; Header: 0x90f72394
+;; TLB: create_offer#90f72394 offerId:uint32 amountOut:coins currencyOut:^string amountIn:coins currencyIn:^string addressMaker:address = CreateOffer
+;;
+
+(slice, ((int, int, slice, int, slice, slice))) $CreateOffer$_load(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 2432115604);
+    var v'offerId = sc_0~load_uint(32);
+    var v'amountOut = sc_0~load_coins();
+    var v'currencyOut = sc_0~load_ref().begin_parse();
+    var v'amountIn = sc_0~load_coins();
+    var v'currencyIn = sc_0~load_ref().begin_parse();
+    var v'addressMaker = sc_0~__tact_load_address();
+    return (sc_0, (v'offerId, v'amountOut, v'currencyOut, v'amountIn, v'currencyIn, v'addressMaker));
+}
+
+;;
+;; Type: Swap
+;; Header: 0x2b67fc73
+;; TLB: swap#2b67fc73 offerId:uint32 addressTaker:address = Swap
+;;
+
+(slice, ((int, slice))) $Swap$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 728235123);
+    var v'offerId = sc_0~load_uint(32);
+    var v'addressTaker = sc_0~__tact_load_address();
+    return (sc_0, (v'offerId, v'addressTaker));
+}
+
+;;
+;; Type: Claim
+;; Header: 0x54cafbb3
+;; TLB: claim#54cafbb3 offerId:uint32 addressMaker:address = Claim
+;;
+
+(slice, ((int, slice))) $Claim$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 1422588851);
+    var v'offerId = sc_0~load_uint(32);
+    var v'addressMaker = sc_0~__tact_load_address();
+    return (sc_0, (v'offerId, v'addressMaker));
+}
+
+;;
+;; Type: ThreeSideContract
+;;
+
+builder $ThreeSideContract$_store(builder build_0, ((int, int, int, slice, slice, slice, slice)) v) inline {
+    var ((v'offer'id, v'offer'amountOut, v'offer'amountIn, v'offer'currencyOut, v'offer'currencyIn, v'offer'makerAddress, v'offer'takerAddress)) = v;
+    build_0 = $Offer$_store(build_0, (v'offer'id, v'offer'amountOut, v'offer'amountIn, v'offer'currencyOut, v'offer'currencyIn, v'offer'makerAddress, v'offer'takerAddress));
+    return build_0;
+}
+
+(slice, (((int, int, int, slice, slice, slice, slice)))) $ThreeSideContract$_load(slice sc_0) inline {
+    var v'offer = sc_0~$Offer$_load();
+    return (sc_0, (v'offer));
+}
+
+((int, int, int, slice, slice, slice, slice)) $ThreeSideContract$_contract_load() impure inline_ref {
+    slice $sc = get_data().begin_parse();
+    __tact_context_sys = $sc~load_ref();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$ThreeSideContract$_load();
+    } else {
+        ;; Allow only workchain deployments
+        throw_unless(137, my_address().preload_uint(11) == 1024);
+        return $ThreeSideContract$_contract_init();
+    }
+}
+
+() $ThreeSideContract$_contract_store(((int, int, int, slice, slice, slice, slice)) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = b.store_int(true, 1);
+    b = $ThreeSideContract$_store(b, v);
+    set_data(b.end_cell());
+}
