@@ -10,7 +10,6 @@ import './App.css'
 import '@twa-dev/sdk'
 
 function App() {
-  const userFriendlyAddress = useTonAddress();
   const { network } = useTonConnect();
 
   // Wallet to wallet testing
@@ -58,7 +57,6 @@ function App() {
         <div className='Application'>
           <div className='Header'>
             <TonConnectButton/>
-            <p> Address {userFriendlyAddress}</p>
             <p> Net is {network ? network === CHAIN.MAINNET ? "MAINnet" : "TESTnet" : "N/A"}</p>
           </div>
 
